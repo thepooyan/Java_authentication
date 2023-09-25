@@ -8,11 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Optional;
 
-public class UserRepo {
+public class UserRepository {
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/dev";
     private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "1234";
-    public UserRepo() {
+    public UserRepository() {
         // Initialize database connection (You should handle exceptions properly)
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
