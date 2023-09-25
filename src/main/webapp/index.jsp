@@ -10,12 +10,14 @@
     <title>Home page</title>
 </head>
 <body>
-    <a href="login.jsp">login</a>
     <%
         if (user != null) {
     %>
-    <a href="Profile.jsp">profile</a>
-    <a href="logout">logout</a>
+        <a href="profile.jsp">profile</a>
+        <a href="logout">logout</a>
+    <%} else {%>
+        <a href="login.jsp">login</a>
+        <a href="signup.jsp">signup</a>
     <%}%>
 </body>
 </html>

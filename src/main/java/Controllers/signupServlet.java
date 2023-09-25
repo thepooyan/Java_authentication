@@ -12,41 +12,52 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(name = "login", value = "/login")
-public class LoginServlet  extends HttpServlet {
+@WebServlet(name = "signup", value = "/signup")
+public class signupServlet extends HttpServlet {
     LoginService loginService = new LoginService();
     Validator validator = new Validator();
 
     private void throwLoginError(String errorMsg, HttpServletResponse resp, HttpServletRequest req) throws IOException {
-       req.getSession().setAttribute("error", errorMsg);
-       resp.sendRedirect("login.jsp");
+        req.getSession().setAttribute("error", errorMsg);
+        resp.sendRedirect("signup.jsp");
     }
+
     private void clearLoginErrors(HttpServletRequest req) {
         req.getSession().setAttribute("error", null);
     }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String name = req.getParameter("name");
+        String lastName = req.getParameter("lastName");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        if ( !validator.isUsernameValid(username)) {
-            throwLoginError("username is not valid", resp, req);
+        if (!validator.isPasswordValid(name)) {
+            throwLoginError("invalid name", resp, req);
             return;
         }
-
+        if (!validator.isPasswordValid(lastName)) {
+            throwLoginError("invalid last name", resp, req);
+            return;
+        }
+        if (!validator.isPasswordValid(username)) {
+            throwLoginError("invalid username", resp, req);
+            return;
+        }
         if (!validator.isPasswordValid(password)) {
-            throwLoginError("password is not valid", resp, req);
+            throwLoginError("invalid password", resp, req);
             return;
         }
 
-        Optional<User> user = loginService.login(username, password);
+        Optional<User> result = loginService.signup(name, lastName, username, password);
 
-        if (user.isPresent()) {
+        if (result.isPresent()) {
+           req.getSession().setAttribute("isLoggedIn", result.get());
            resp.sendRedirect("profile.jsp");
-           req.getSession().setAttribute("isLoggedIn" ,user.get());
            clearLoginErrors(req);
         } else {
-            throwLoginError("username or password wrong!", resp, req);
+            throwLoginError("something went wrong", resp, req);
             return;
         }
     }

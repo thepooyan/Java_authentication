@@ -11,4 +11,10 @@ public class LoginService {
         UserRepo userRepo = new UserRepo();
         return userRepo.authenticateUser(user);
     }
+
+    public Optional<User> signup(String name,String lastName,String username,String password) {
+        User user = User.builder().name(name).lastName(lastName).username(username).password(password).build();
+        System.out.println(user);
+        return Optional.ofNullable(user);
+    }
 }
