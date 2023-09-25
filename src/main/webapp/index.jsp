@@ -15,6 +15,7 @@
         if (user != null) {
     %>
     <a href="Profile.jsp">profile</a>
+    <a href="logout">logout</a>
     <%}%>
 </body>
 </html>
