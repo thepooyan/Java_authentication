@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @WebServlet(name = "signup", value = "/signup")
-public class signupServlet extends HttpServlet {
+public class SignupServlet extends HttpServlet {
     LoginService loginService = new LoginService();
     Validator validator = new Validator();
 
