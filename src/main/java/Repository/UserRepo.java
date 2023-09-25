@@ -43,15 +43,23 @@ public class UserRepo {
         return Optional.empty(); // Authentication failed or encountered an error
     }
 
-    public void addUser(String username, String email) {
+    public Optional<User> addUser(User user) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(
-         "INSERT INTO users (username, email) VALUES (?, ?)")) {
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, email);
-            preparedStatement.executeUpdate();
+         "INSERT INTO users (name, lastName, username, password) VALUES (?, ?, ?, ?)")) {
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setString(3, user.getUsername());
+            preparedStatement.setString(4, user.getPassword());
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 1) {
+                return Optional.ofNullable(user);
+            } else {
+                return Optional.empty();
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            return Optional.empty();
         }
     }
 
