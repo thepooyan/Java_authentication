@@ -6,6 +6,5 @@
 </head>
 <body>
     <a href="login.jsp">login</a>
-    <a href=""></a>
 </body>
 </html>
